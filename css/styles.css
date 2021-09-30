@@ -89,9 +89,9 @@ button {
     visibility: visible;
 }
 .task-form {
-    margin: 2rem 0;
     display: grid;
     grid-gap: 1rem;
+    margin: 2rem 0;
 }
 .task-form input {
     width: 100%;
@@ -192,7 +192,7 @@ button {
     justify-content: center;
     text-align: left;
 }
-.tasks-amount {
+.active-tasks-amount {
     color: var(--main-orange);
 }
 .done-tasks-amount {

@@ -11,51 +11,23 @@
 </head>
 <body>
     <div class="task-manager">
-        <div class="message-area">Task added</div>
+        <div class="message-area"></div>
         <h1>Task Manager</h1>
         <form class="task-form">
             <input type="text" placeholder="Add a task...">
             <div class="btn-container">
                 <button type="submit" class="add-task-btn">Add task</button>
-                <button class="clear-btn">Clear</button>
+                <button type="button" class="clear-btn">Clear</button>
             </div>
         </form>
-        <div class="tasks-container">
-            <article class="task">
-                <p class="task-content">Example task</p>
-                <div class="task-controls">
-                    <button class="do-task-btn">
-                        <i class="fas fa-check-circle"></i>
-                    </button>
-                    <button class="edit-task-btn">
-                        <i class="fas fa-pen-square"></i>
-                    </button>
-                    <button class="delete-task-btn">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            </article>
-            <article class="task">
-                <p class="task-content">Example task</p>
-                <div class="task-controls">
-                    <button class="do-task-btn">
-                        <i class="fas fa-check-circle"></i>
-                    </button>
-                    <button class="edit-task-btn">
-                        <i class="fas fa-pen-square"></i>
-                    </button>
-                    <button class="delete-task-btn">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            </article>
-        </div>
+        <div class="tasks-container"></div>
         <div class="controller">
-            <p class="date">Wednesday, 29.09.2021</p>
-            <p class="count">Active tasks: <span class="tasks-amount">2</span></p>
-            <p class="count">Done tasks: <span class="done-tasks-amount">0</span></p>
+            <p class="date"></p>
+            <p class="date time"></p>
+            <p class="count">Active tasks: <span class="active-tasks-amount"></span></p>
+            <p class="count">Done tasks: <span class="done-tasks-amount"></span></p>
         </div>
     </div>
-    <script src="./js/app.js"></script>
+    <script type="module" src="./js/app.js"></script>
 </body>
 </html>
