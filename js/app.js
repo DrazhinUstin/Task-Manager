@@ -7,3 +7,5 @@ document.addEventListener('DOMContentLoaded', () => {
     utils.setDate();
     utils.setTime();
 });
+
+window.addEventListener('load', utils.hidePreloader);

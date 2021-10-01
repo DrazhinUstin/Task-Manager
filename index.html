@@ -10,11 +10,25 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
 <body>
+    <div class="preloader">
+        <div class="loading">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
     <div class="task-manager">
         <div class="message-area"></div>
         <h1>Task Manager</h1>
         <form class="task-form">
-            <input type="text" placeholder="Add a task...">
+            <div class="input-container">
+                <input type="text" placeholder="Add a task...">
+                <select class="filters">
+                    <option value="all" selected>all</option>
+                    <option value="active">active</option>
+                    <option value="done">done</option>
+                </select>
+            </div>
             <div class="btn-container">
                 <button type="submit" class="add-task-btn">Add task</button>
                 <button type="button" class="clear-btn">Clear</button>

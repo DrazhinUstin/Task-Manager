@@ -8,7 +8,7 @@ const getStorageItem = (key) => {
 };
 
 const setStorageItem = (key, item) => {
-    return localStorage.setItem(key, JSON.stringify(item));
+    localStorage.setItem(key, JSON.stringify(item));
 };
 
 const setDate = () => {
@@ -45,4 +45,8 @@ const displayMessage = (className, message) => {
     }, 800);
 };
 
-export {getElement, getStorageItem, setStorageItem, setDate, setTime, displayMessage};
+const hidePreloader = () => {
+    getElement('.preloader').classList.add('hide');
+};
+
+export {getElement, getStorageItem, setStorageItem, setDate, setTime, displayMessage, hidePreloader};

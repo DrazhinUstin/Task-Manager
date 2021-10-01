@@ -3,12 +3,14 @@ import {getElement, setStorageItem, displayMessage} from './utils.js';
 const setTaskManager = (tasks) => {
 
     const tasksDOM = getElement('.tasks-container');
-    const clearBtn = getElement('.clear-btn');
-    const submitBtn = getElement('.add-task-btn');
     const form = getElement('.task-form');
     const input = getElement('.task-form input');
+    const submitBtn = getElement('.add-task-btn');
+    const clearBtn = getElement('.clear-btn');
+    const filters = getElement('.filters');
     let editElem = null;
     let editFlag = false;
+    let filteredElems = null;
 
     form.addEventListener('submit', event => {
         event.preventDefault();
@@ -21,7 +23,7 @@ const setTaskManager = (tasks) => {
             editElem.textContent = value;
             const taskItem = tasks.find(task => task.id == editElem.parentElement.dataset.id);
             taskItem.value = value;
-            setBackToDefault();
+            setEditToDefault();
             setStorageItem('tasks', tasks);
         } else {
             displayMessage('notice', 'Task added!');
@@ -29,19 +31,24 @@ const setTaskManager = (tasks) => {
             input.value = '';
             const taskItem = {id, value, done: false};
             tasks.push(taskItem);
+            if (filteredElems) filteredElems.push(taskItem);
             countTasks(); 
             setStorageItem('tasks', tasks);
         }
     });
 
     clearBtn.addEventListener('click', () => {
-        if (editFlag) setBackToDefault();
-        if (tasksDOM.children.length === 0) {
+        if (editFlag) setEditToDefault();
+        if (!tasksDOM.children.length) {
             displayMessage('alarm', 'Nothing to clear!'); 
         } else {
-            displayMessage('notice', 'All is cleaned');
-            [...tasksDOM.children].forEach(task => task.remove());
-            tasks = [];
+            if (filteredElems) {
+                tasks = tasks.filter(task => !filteredElems.includes(task));
+            } else {
+                tasks = [];
+            }
+            displayMessage('notice', 'All is cleared!');
+            displayTasks();
             countTasks();
             setStorageItem('tasks', tasks);
         }
@@ -50,7 +57,7 @@ const setTaskManager = (tasks) => {
     tasksDOM.addEventListener('click', event => {
         // Delete task
         if (event.target.closest('.delete-task-btn')) {
-            if (editFlag) setBackToDefault();
+            if (editFlag) setEditToDefault();
             const button = event.target.closest('.delete-task-btn');
             const parent = button.parentElement.parentElement;
             parent.addEventListener('transitionend', () => parent.remove());
@@ -76,7 +83,7 @@ const setTaskManager = (tasks) => {
         }
         // Done task
         if (event.target.closest('.do-task-btn')) {
-            if (editFlag) setBackToDefault();
+            if (editFlag) setEditToDefault();
             const button = event.target.closest('.do-task-btn');
             const parent = button.parentElement.parentElement;
             const taskItem = tasks.find(task => task.id == parent.dataset.id);
@@ -84,15 +91,38 @@ const setTaskManager = (tasks) => {
             if (parent.classList.contains('done')) {
                 displayMessage('notice', 'Task is done!');
                 taskItem.done = true;
-                countTasks();
             } else {
                 displayMessage('notice', 'Task is active!');
                 taskItem.done = false;
-                countTasks();
             }
+            countTasks();
             setStorageItem('tasks', tasks);
         }
     });
+
+    filters.addEventListener('click', event => {
+        if (editFlag) setEditToDefault();
+        const value = event.target.value;
+        switch (value) {
+            case 'all':
+                filteredElems = null;
+                displayTasks(tasks);
+                break;
+            case 'active':
+                filteredElems = tasks.filter(task => !task.done);
+                displayTasks(filteredElems);
+                break;
+            case 'done':
+                filteredElems = tasks.filter(task => task.done);
+                displayTasks(filteredElems);
+                break;   
+        }
+    });
+
+    function displayTasks (items = []) {
+        tasksDOM.innerHTML = '';
+        items.forEach(item => addTaskDOM(item.value, item.id, item.done));
+    }
 
     function addTaskDOM (value, id, done) {
         const article = document.createElement('article');
@@ -111,15 +141,7 @@ const setTaskManager = (tasks) => {
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>`;
-        tasksDOM.append(article);                    
-    }
-
-    function setBackToDefault () {
-        input.value = '';
-        input.blur();
-        submitBtn.textContent = 'Add task';
-        editElem = null;
-        editFlag = false;
+        tasksDOM.append(article);                  
     }
 
     function countTasks () {
@@ -133,11 +155,15 @@ const setTaskManager = (tasks) => {
         getElement('.done-tasks-amount').textContent = doneTasks;
     }
 
-    function displayAllTasks () {
-        tasks.forEach(task => addTaskDOM(task.value, task.id, task.done));
+    function setEditToDefault () {
+        input.value = '';
+        input.blur();
+        submitBtn.textContent = 'Add task';
+        editElem = null;
+        editFlag = false;
     }
 
-    displayAllTasks();
+    displayTasks(tasks);
     countTasks();
 
 };
