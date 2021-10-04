@@ -69,7 +69,7 @@ const setTaskManager = (tasks) => {
                 parent.remove();
                 if (!tasksDOM.children.length) tasksDOM.innerHTML = '<p class="no-tasks">No tasks...</p>';
             });
-            tasks = tasks.filter(task => task.id != parent.dataset.id);
+            removeTaskItem(parent.dataset.id);
             displayMessage('notice', 'Task deleted');
             parent.classList.add('delete');
             countTasks();
@@ -154,6 +154,11 @@ const setTaskManager = (tasks) => {
                                 </button>
                             </div>`;
         tasksDOM.append(article);                  
+    }
+
+    function removeTaskItem (id) {
+        tasks = tasks.filter(task => task.id != id);
+        if (filteredElems) filteredElems = filteredElems.filter(task => task.id != id);
     }
 
     function countTasks () {
