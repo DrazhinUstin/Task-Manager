@@ -17,7 +17,7 @@ const setTaskManager = (tasks) => {
         const value = input.value;
         const id = new Date().getTime();
         if (!value) {
-            displayMessage('alarm', 'Please, add some value!');
+            displayMessage('alarm', 'Please, enter value!');
         } else if (editFlag) {
             displayMessage('notice', 'Task edited!');
             editElem.textContent = value;
@@ -26,12 +26,16 @@ const setTaskManager = (tasks) => {
             setEditToDefault();
             setStorageItem('tasks', tasks);
         } else {
-            displayMessage('notice', 'Task added!');
-            addTaskDOM(value, id);
-            input.value = '';
             const taskItem = {id, value, done: false};
             tasks.push(taskItem);
-            if (filteredElems) filteredElems.push(taskItem);
+            if (filteredElems) {
+                filteredElems.push(taskItem);
+                displayTasks(filteredElems);
+            } else {
+                displayTasks(tasks);
+            }
+            displayMessage('notice', 'Task added!');
+            input.value = '';
             countTasks(); 
             setStorageItem('tasks', tasks);
         }
@@ -39,11 +43,12 @@ const setTaskManager = (tasks) => {
 
     clearBtn.addEventListener('click', () => {
         if (editFlag) setEditToDefault();
-        if (!tasksDOM.children.length) {
+        if (!tasksDOM.querySelector('.task')) {
             displayMessage('alarm', 'Nothing to clear!'); 
         } else {
             if (filteredElems) {
                 tasks = tasks.filter(task => !filteredElems.includes(task));
+                filteredElems = [];
             } else {
                 tasks = [];
             }
@@ -60,10 +65,13 @@ const setTaskManager = (tasks) => {
             if (editFlag) setEditToDefault();
             const button = event.target.closest('.delete-task-btn');
             const parent = button.parentElement.parentElement;
-            parent.addEventListener('transitionend', () => parent.remove());
+            parent.addEventListener('transitionend', () => {
+                parent.remove();
+                if (!tasksDOM.children.length) tasksDOM.innerHTML = '<p class="no-tasks">No tasks...</p>';
+            });
+            tasks = tasks.filter(task => task.id != parent.dataset.id);
             displayMessage('notice', 'Task deleted');
             parent.classList.add('delete');
-            tasks = tasks.filter(task => task.id != parent.dataset.id);
             countTasks();
             setStorageItem('tasks', tasks);
         }
@@ -100,7 +108,7 @@ const setTaskManager = (tasks) => {
         }
     });
 
-    filters.addEventListener('click', event => {
+    filters.addEventListener('change', event => {
         if (editFlag) setEditToDefault();
         const value = event.target.value;
         switch (value) {
@@ -120,8 +128,12 @@ const setTaskManager = (tasks) => {
     });
 
     function displayTasks (items = []) {
-        tasksDOM.innerHTML = '';
-        items.forEach(item => addTaskDOM(item.value, item.id, item.done));
+        if (!items.length) {
+            tasksDOM.innerHTML = '<p class="no-tasks">No tasks...</p>';
+        } else {
+            tasksDOM.innerHTML = '';
+            items.forEach(item => addTaskDOM(item.value, item.id, item.done));
+        }
     }
 
     function addTaskDOM (value, id, done) {
