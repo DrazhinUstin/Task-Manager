@@ -5,9 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Manager</title>
+    <script src="https://kit.fontawesome.com/88b18bb1d4.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
 <body>
     <div class="preloader">
@@ -22,16 +21,16 @@
         <h1>Task Manager</h1>
         <form class="task-form">
             <div class="input-container">
-                <input type="text" placeholder="Add a task..." class="fixed-size">
-                <select class="filters fixed-size">
+                <input type="text" placeholder="Add a task..." class="form-item">
+                <select class="filters form-item">
                     <option value="all" selected>all</option>
                     <option value="active">active</option>
                     <option value="done">done</option>
                 </select>
             </div>
             <div class="btn-container">
-                <button type="submit" class="add-task-btn fixed-size">Add task</button>
-                <button type="button" class="clear-btn fixed-size">Clear</button>
+                <button type="submit" class="add-task-btn form-item">Add task</button>
+                <button type="button" class="clear-btn form-item">Clear</button>
             </div>
         </form>
         <div class="tasks-container"></div>

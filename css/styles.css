@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,500;0,700;1,500&display=swap');
+
 /***************************************** GLOBAL STYLES *****************************************/
 
 :root {
@@ -11,30 +13,32 @@
     --dark-green: #236330;
     --green: #42ab59;
     --light-green: #6ecb76;
+    --light-grey: rgb(191, 203, 209);
     --orange: #F39629;
     --milk: #DAE4E5;
     --main-width: 600px;
     --more-space: 0.2rem;
     --less-space: 0.1rem;
+    --radius: 0.5rem;
+    --radius-2: 1rem;
     --transition: all 0.5s ease;
 }
-*, ::before, ::after {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
 }
 *::selection {
     background-color: var(--dark-background);
     color: var(--white);
 }
 body {
-    width: 100vw;
     min-height: 100vh;
     padding: 15vh 0;
     overflow-x: hidden;
     background: linear-gradient(95deg, var(--light-background) 50%, var(--dark-background) 50%);
     color: var(--black);
-    font: 1rem 'Open Sans', sans-serif;
 }
 h1 {
     text-align: center;
@@ -46,26 +50,17 @@ p {
     line-height: 1.5;
 }
 button {
-    display: block;
+    border: none;
     cursor: pointer;
     transition: var(--transition);
-}
-.fixed-size {
-    height: 2rem;
-    border-radius: 1rem;
-    font: 0.9rem 'Open Sans', sans-serif;
 }
 
 @media screen and (max-width: 425px) {
     body {
-        font: 0.9rem 'Open Sans', sans-serif;  
+        font-size: 0.9rem;
     }
     h1 {
-        font-size: 1.6rem;
-    }
-    .fixed-size {
-        height: 1.85rem;
-        font: 0.8rem 'Open Sans', sans-serif;
+        font-size: 1.8rem;
     }
 }
 
@@ -123,7 +118,7 @@ button {
     width: 90vw;
     margin: 0 auto;
     padding: 1rem 2rem 2rem 2rem;
-    border-radius: 0.5rem;
+    border-radius: var(--radius);
     background-color: var(--milk);
 }
 .message-area {
@@ -145,17 +140,31 @@ button {
     color: var(--dark-red);
     visibility: visible;
 }
+
+@media screen and (max-width: 500px) {
+    .task-manager {
+        padding: 1rem 1rem 2rem 1rem;
+    }
+}
+
+/***************************************** TASK-FORM *****************************************/
+
 .task-form {
     display: grid;
     grid-gap: 1rem;
     margin: 2rem 0;
 }
+.form-item {
+    height: 2.2rem;
+    border-radius: var(--radius-2);
+    font-size: 1rem;
+}
 .input-container {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-gap: 0.5rem;
+    display: flex;
+    column-gap: 0.5rem;
 }
 .input-container > * {
+    width: 100%;
     padding: 0rem 0.5rem;
     border: 2px solid var(--white);
     background-color: var(--white);
@@ -166,7 +175,7 @@ button {
     outline: none;
 }
 .filters {
-    width: 4.5rem;
+    width: 5rem;
     padding-left: 0.2rem;
     padding-right: 0;
     text-transform: capitalize;
@@ -182,7 +191,6 @@ button {
 }
 .btn-container > * {
     width: 7rem;
-    border: none;
     background-color: var(--light-background);
     color: var(--white);
     text-transform: capitalize;
@@ -197,6 +205,22 @@ button {
 .clear-btn:hover {
     background-color: var(--dark-red);
 }
+
+@media screen and (max-width: 425px) {
+    .filters {
+        width: 4.5rem;
+    }
+    .btn-container > * {
+        width: 6.5rem;
+    }
+    .form-item {
+        height: 2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/***************************************** TASKS *****************************************/
+
 .tasks-container {
     display: grid;
     grid-gap: 0.5rem;
@@ -212,6 +236,9 @@ button {
     justify-content: space-between;
     align-items: center;
     column-gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    background-color: var(--light-grey);
     transition: var(--transition);
 }
 .task.done {
@@ -230,7 +257,6 @@ button {
     column-gap: 0.8rem;
 }
 .task-controls > * {
-    border: none;
     background-color: inherit;
     font-size: 1rem;
 }
@@ -249,6 +275,18 @@ button {
 .delete-task-btn {
     color: var(--red);
 }
+
+@media screen and (max-width: 425px) {
+    .task-controls {
+        column-gap: 0.6rem;
+    }
+    .task-controls > * {
+        font-size: 0.9rem;
+    }
+}
+
+/***************************************** CONTROLLER *****************************************/
+
 .controller {
     text-align: center;
     text-transform: capitalize;
@@ -275,21 +313,6 @@ button {
 }
 
 @media screen and (max-width: 425px) {
-    .task-manager {
-        padding: 1rem 1rem 2rem 1rem;
-    }
-    .filters {
-        width: 4.2rem;
-    }
-    .btn-container > * {
-        width: 6rem;
-    }
-    .task-controls {
-        column-gap: 0.6rem;
-    }
-    .task-controls > * {
-        font-size: 0.9rem;
-    }
     .count {
         grid-template-columns: 8rem auto;
     }
